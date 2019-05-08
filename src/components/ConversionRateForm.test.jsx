@@ -1,15 +1,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import App from './App.jsx';
-import renderSnapshot from './testing/renderSnapshot.js';
+import ConversionRateForm from './ConversionRateForm.jsx';
+import renderSnapshot from '../testing/renderSnapshot.js';
 
-jest.mock('./App.module.scss', () => ({
-  container: 'styles.container',
-}));
-jest.mock('./components/ConversionRateForm.jsx', () => 'ConversionRateForm');
-
-describe('App', () => {
+describe('ConversionRateForm', () => {
   it('matches the saved snapshot', () => {
     let { root: actual } = extractComponents(renderComponent());
 
@@ -22,7 +17,7 @@ describe('App', () => {
 
   const renderComponent = (props) => (
     shallow(
-      <App
+      <ConversionRateForm
         {...props}
       />
     )

@@ -9,66 +9,6 @@ exports[`App matches the saved snapshot 1`] = `
   >
     Look Up Conversion Rate
   </h1>
-  <form
-    className="styles.container"
-  >
-    <div
-      className="field"
-    >
-      <div
-        className="control"
-      >
-        <div
-          className="select"
-        >
-          <select>
-            <option>
-              Pick Base Currency
-            </option>
-            <option>
-              With options
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div
-      className="field"
-    >
-      <div
-        className="control"
-      >
-        <div
-          className="select"
-        >
-          <select>
-            <option>
-              Pick Target Currency
-            </option>
-            <option>
-              With options
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div
-      className="field"
-    >
-      <div
-        className="control"
-      >
-        <input
-          className="input"
-          type="date"
-        />
-      </div>
-    </div>
-    <button
-      className="button is-primary"
-    >
-      Look Up
-    </button>
-  </form>
+  <ConversionRateForm />
 </div>
 `;
