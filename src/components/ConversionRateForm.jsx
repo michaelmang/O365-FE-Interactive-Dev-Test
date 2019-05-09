@@ -3,7 +3,46 @@ import React from 'react';
 
 import styles from './ConversionRateForm.module.scss';
 
+const currencies = [
+  'BGN',
+  'NZD',
+  'ILS',
+  'RUB',
+  'CAD',
+  'USD',
+  'PHP',
+  'CHF',
+  'ZAR',
+  'AUD',
+  'JPY',
+  'TRY',
+  'HKD',
+  'MYR',
+  'THB',
+  'HRK',
+  'NOK',
+  'IDR',
+  'DKK',
+  'CZK',
+  'HUF',
+  'GBP',
+  'MXN',
+  'KRW',
+  'ISK',
+  'SGD',
+  'BRL',
+  'PLN',
+  'INR',
+  'RON',
+  'CNY',
+  'SEK',
+];
+
 const ConversionRateForm = (props) => {
+  let currencyOptions = currencies.map(c => (
+    <option key={c}>{c}</option>
+  ));
+
   return (
     <form className={styles.container}>
       <div className={classnames('field', styles.field)}>
@@ -11,7 +50,7 @@ const ConversionRateForm = (props) => {
           <div className="select">
             <select>
               <option>Pick Base Currency</option>
-              <option>With options</option>
+              {currencyOptions}
             </select>
           </div>
         </div>
@@ -22,7 +61,7 @@ const ConversionRateForm = (props) => {
           <div className="select">
             <select>
               <option>Pick Target Currency</option>
-              <option>With options</option>
+              {currencyOptions}
             </select>
           </div>
         </div>
