@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date matches the saved snapshot 1`] = `
+<div
+  className="field styles.field"
+>
+  <div
+    className="control"
+  >
+    <input
+      className="input"
+      onChange={[Function]}
+      type="date"
+      value="some date"
+    />
+  </div>
+</div>
+`;

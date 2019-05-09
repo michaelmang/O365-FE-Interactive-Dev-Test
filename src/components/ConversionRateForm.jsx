@@ -1,81 +1,50 @@
-import classnames from 'classnames';
 import React from 'react';
 
 import styles from './ConversionRateForm.module.scss';
+import Date from './Date.jsx';
+import Select from './Select.jsx';
 
-const currencies = [
-  'BGN',
-  'NZD',
-  'ILS',
-  'RUB',
-  'CAD',
-  'USD',
-  'PHP',
-  'CHF',
-  'ZAR',
-  'AUD',
-  'JPY',
-  'TRY',
-  'HKD',
-  'MYR',
-  'THB',
-  'HRK',
-  'NOK',
-  'IDR',
-  'DKK',
-  'CZK',
-  'HUF',
-  'GBP',
-  'MXN',
-  'KRW',
-  'ISK',
-  'SGD',
-  'BRL',
-  'PLN',
-  'INR',
-  'RON',
-  'CNY',
-  'SEK',
-];
+export default class ConversionRateForm extends React.PureComponent {
+  state = {
+    baseCurrency: '',
+    date: '',
+    targetCurrency: '',
+  }
 
-const ConversionRateForm = (props) => {
-  let currencyOptions = currencies.map(c => (
-    <option key={c}>{c}</option>
-  ));
+  handleBaseCurrency = ({ target }) => {
+    this.setState({ baseCurrency: target.value });
+  }
 
-  return (
-    <form className={styles.container}>
-      <div className={classnames('field', styles.field)}>
-        <div className="control">
-          <div className="select">
-            <select>
-              <option>Pick Base Currency</option>
-              {currencyOptions}
-            </select>
-          </div>
-        </div>
-      </div>
+  handleDate = ({ target }) => {
+    this.setState({ date: target.value });
+  }
 
-      <div className={classnames('field', styles.field)}>
-        <div className="control">
-          <div className="select">
-            <select>
-              <option>Pick Target Currency</option>
-              {currencyOptions}
-            </select>
-          </div>
-        </div>
-      </div>
+  handleTargetCurrency = ({ target }) => {
+    this.setState({ targetCurrency: target.value });
+  }
 
-      <div className={classnames('field', styles.field)}>
-        <div className="control">
-          <input className="input" type="date" />
-        </div>
-      </div>
+  render() {
+    let {
+      baseCurrency,
+      date,
+      targetCurrency,
+    } = this.state;
 
-      <button className="button is-primary">Look Up</button>
-    </form>
-  );
-};
-
-export default ConversionRateForm;
+    return (
+      <form className={styles.container}>
+        <Select
+          label="Pick Base Currency"
+          onSelect={this.handleBaseCurrency}
+          value={baseCurrency}
+        />
+        <Select
+          label="Pick Target Currency"
+          onSelect={this.handleTargetCurrency}
+          value={targetCurrency}
+        />
+        <Date onDate={this.handleDate} value={date} />
+        <button className="button is-primary">Look Up</button>
+      </form>
+    );
+  }
+}
