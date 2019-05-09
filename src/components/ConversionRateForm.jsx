@@ -1,11 +1,12 @@
+import classnames from 'classnames';
 import React from 'react';
 
-import './ConversionRateForm.css';
+import styles from './ConversionRateForm.module.scss';
 
 const ConversionRateForm = (props) => {
   return (
-    <form className="container">
-      <div className="field">
+    <form className={styles.container}>
+      <div className={classnames('field', styles.field)}>
         <div className="control">
           <div className="select">
             <select>
@@ -16,7 +17,7 @@ const ConversionRateForm = (props) => {
         </div>
       </div>
 
-      <div className="field">
+      <div className={classnames('field', styles.field)}>
         <div className="control">
           <div className="select">
             <select>
@@ -27,7 +28,7 @@ const ConversionRateForm = (props) => {
         </div>
       </div>
 
-      <div className="field">
+      <div className={classnames('field', styles.field)}>
         <div className="control">
           <input className="input" type="date" />
         </div>

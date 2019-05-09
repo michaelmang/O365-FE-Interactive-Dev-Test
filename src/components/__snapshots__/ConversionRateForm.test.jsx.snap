@@ -2,10 +2,10 @@
 
 exports[`ConversionRateForm matches the saved snapshot 1`] = `
 <form
-  className="container"
+  className="styles.container"
 >
   <div
-    className="field"
+    className="field styles.field"
   >
     <div
       className="control"
@@ -25,7 +25,7 @@ exports[`ConversionRateForm matches the saved snapshot 1`] = `
     </div>
   </div>
   <div
-    className="field"
+    className="field styles.field"
   >
     <div
       className="control"
@@ -45,7 +45,7 @@ exports[`ConversionRateForm matches the saved snapshot 1`] = `
     </div>
   </div>
   <div
-    className="field"
+    className="field styles.field"
   >
     <div
       className="control"
