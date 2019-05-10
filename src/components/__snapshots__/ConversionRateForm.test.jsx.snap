@@ -1,27 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConversionRateForm matches the saved snapshot 1`] = `
-<form
+<div
   className="styles.container"
 >
-  <Select
-    label="Pick Base Currency"
-    onSelect={[Function]}
-    value=""
-  />
-  <Select
-    label="Pick Target Currency"
-    onSelect={[Function]}
-    value=""
-  />
-  <Date
-    onDate={[Function]}
-    value=""
-  />
-  <button
-    className="button is-primary"
+  <form
+    onSubmit={[Function]}
   >
-    Look Up
-  </button>
-</form>
+    <Select
+      label="Pick Base Currency"
+      onSelect={[Function]}
+      value=""
+    />
+    <Select
+      label="Pick Target Currency"
+      onSelect={[Function]}
+      value=""
+    />
+    <Date
+      onDate={[Function]}
+      value=""
+    />
+    <input
+      className="button is-primary"
+      type="submit"
+      value="Look Up"
+    />
+  </form>
+</div>
+`;
+
+exports[`ConversionRateForm on form submission when getConversionRate is pending only renders progress bar 1`] = `
+<div
+  className="styles.container"
+>
+  <progress
+    className="progress is-medium is-primary"
+    max="100"
+    style={
+      Object {
+        "width": "20rem",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`ConversionRateForm on form submission when getConversionRate resolves successfully renders form and conversion rate output 1`] = `
+<div
+  className="styles.container"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <Select
+      label="Pick Base Currency"
+      onSelect={[Function]}
+      value="some base currency"
+    />
+    <Select
+      label="Pick Target Currency"
+      onSelect={[Function]}
+      value="some target currency"
+    />
+    <Date
+      onDate={[Function]}
+      value="some date"
+    />
+    <input
+      className="button is-primary"
+      type="submit"
+      value="Look Up"
+    />
+  </form>
+  <div
+    className="styles.container"
+    data-test-id="conversion-rate-output"
+  >
+    <p>
+      1 
+      some base currency
+       =
+    </p>
+    <p
+      className="has-text-dark has-text-weight-semibold is-size-4"
+    >
+      123.457
+       
+      some target currency
+    </p>
+    <p
+      className="has-text-grey"
+    >
+      as of 
+      some date
+    </p>
+  </div>
+</div>
 `;
