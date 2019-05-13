@@ -16,18 +16,25 @@ export default class ConversionRateForm extends React.PureComponent {
     targetCurrency: '',
   }
 
+  handleApiException(ex) {
+    this.setState({ isLoading: false });
+    this.props.appendError(ex);
+    console.error(ex);
+    return;
+  }
+
   handleBaseCurrency = ({ target }) => {
-    this.setState({
-      baseCurrency: target.value,
-      conversionRate: null,
-    });
+    let { value: baseCurrency } = target;
+    this.setState({ baseCurrency });
+
+    this.resetConversionRate();
   }
 
   handleDate = ({ target }) => {
-    this.setState({
-      conversionRate: null,
-      date: target.value,
-    });
+    let { value: date } = target;
+    this.setState({ date });
+
+    this.resetConversionRate();
   }
 
   handleSubmit = async (event) => {
@@ -35,87 +42,97 @@ export default class ConversionRateForm extends React.PureComponent {
 
     this.setState({ isLoading: true });
 
-    let { baseCurrency, date, targetCurrency } = this.state;
-    let newConversionRate;
+    let conversionRate;
     try {
-      newConversionRate = await getConversionRate({
+      let { baseCurrency, date, targetCurrency } = this.state;
+      conversionRate = await getConversionRate({
         baseCurrency,
         date,
         targetCurrency,
       });
     }
     catch (ex) {
-      console.error(ex);
-
-      this.props.appendError(ex);
-
-      this.setState({ isLoading: false });
-
-      return;
+      this.handleApiException(ex);
     }
     finally {
       this.setState({ isLoading: false });
-      this.setState({ conversionRate: newConversionRate });
+      this.setState({ conversionRate });
     }
   }
 
   handleTargetCurrency = ({ target }) => {
-    this.setState({
-      conversionRate: null,
-      targetCurrency: target.value,
-    });
+    let { value: targetCurrency } = target;
+    this.setState({ targetCurrency });
+
+    this.resetConversionRate();
+  }
+
+  resetConversionRate() {
+    this.setState({ conversionRate: null });
   }
 
   render() {
+    let { conversionRate, isLoading } = this.state;
+
+    return (
+      <div className={styles.container}>
+        {isLoading ? this.renderLoader() : this.renderForm()}
+        {(!isLoading && !!conversionRate) && this.renderConversionRate()}
+      </div>
+    );
+  }
+
+  renderConversionRate() {
     let {
       baseCurrency,
       conversionRate,
       date,
-      isLoading,
       targetCurrency,
     } = this.state;
 
     return (
-      <div className={styles.container}>
-        {
-          isLoading
-          ? (
-            <progress
-              className="progress is-medium is-primary"
-              max="100"
-              style={{ width: '20rem' }}
-            />
-          )
-          : (
-            <form className={styles.form} onSubmit={(e) => this.handleSubmit(e)}>
-              <Select
-                label="Pick Base Currency"
-                onSelect={this.handleBaseCurrency}
-                value={baseCurrency}
-              />
-              <Select
-                label="Pick Target Currency"
-                onSelect={this.handleTargetCurrency}
-                value={targetCurrency}
-              />
-              <Date onDate={this.handleDate} value={date} />
-              <input className="button is-primary" type="submit" value="Look Up" />
-            </form>
-          )
-        }
-        {
-          !isLoading &&
-          !!conversionRate && (
-            <div className={styles.container} data-test-id="conversion-rate-output">
-              <p>1 {baseCurrency} =</p>
-              <p className="has-text-dark has-text-weight-semibold is-size-4">
-                {formatRate(conversionRate)} {targetCurrency}
-              </p>
-              <p className="has-text-grey">as of {date}</p>
-            </div>
-          )
-        }
+      <div className={styles.container} data-test-id="conversion-rate-output">
+        <p>1 {baseCurrency} =</p>
+        <p className="has-text-dark has-text-weight-semibold is-size-4">
+          {formatRate(conversionRate)} {targetCurrency}
+        </p>
+        <p className="has-text-grey">as of {date}</p>
       </div>
+    );
+  }
+
+  renderForm() {
+    let {
+      baseCurrency,
+      date,
+      targetCurrency,
+    } = this.state;
+
+    return (
+      <form className={styles.form} onSubmit={(e) => this.handleSubmit(e)}>
+        <Select
+          label="Pick Base Currency"
+          onSelect={this.handleBaseCurrency}
+          value={baseCurrency}
+        />
+        <Select
+          label="Pick Target Currency"
+          onSelect={this.handleTargetCurrency}
+          value={targetCurrency}
+        />
+        <Date onDate={this.handleDate} value={date} />
+        <input className="button is-primary" type="submit" value="Look Up" />
+      </form>
+    );
+  }
+
+  renderLoader() {
+    return (
+      <progress
+        className="progress is-medium is-primary"
+        max="100"
+        style={{ width: '20rem' }}
+      />
     );
   }
 }

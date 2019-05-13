@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -17,7 +16,7 @@ Notifications.propTypes = {
 };
 
 const renderError = ({ message }, idx) => (
-  <div key={idx} className={classnames('notification is-danger')}>
+  <div key={idx} className="notification is-danger">
     {message}
   </div>
 );
