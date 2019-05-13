@@ -98,3 +98,33 @@ exports[`ConversionRateForm on form submission when getConversionRate resolves s
   </div>
 </div>
 `;
+
+exports[`ConversionRateForm on form submission when getConversionRate throws an exception renders form and no conversion rate output 1`] = `
+<div
+  className="styles.container"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <Select
+      label="Pick Base Currency"
+      onSelect={[Function]}
+      value="some base currency"
+    />
+    <Select
+      label="Pick Target Currency"
+      onSelect={[Function]}
+      value="some target currency"
+    />
+    <Date
+      onDate={[Function]}
+      value="some date"
+    />
+    <input
+      className="button is-primary"
+      type="submit"
+      value="Look Up"
+    />
+  </form>
+</div>
+`;

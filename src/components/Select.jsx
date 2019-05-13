@@ -15,7 +15,7 @@ const Select = ({ label, onSelect, value }) => {
       <div className="control">
         <div className="select">
           <select onChange={onSelect} value={value}>
-            <option>{label}</option>
+            <option value="-1">{label}</option>
             {currencyOptions}
           </select>
         </div>

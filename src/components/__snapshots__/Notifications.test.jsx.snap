@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notifications matches the saved snapshot 1`] = `
+<div
+  className="styles.container"
+>
+  <div
+    className="notification is-danger"
+  >
+    derp
+  </div>
+  <div
+    className="notification is-danger"
+  >
+    chirp
+  </div>
+  <div
+    className="notification is-danger"
+  >
+    hero
+  </div>
+</div>
+`;

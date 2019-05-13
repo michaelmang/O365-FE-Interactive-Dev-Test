@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './ConversionRateForm.module.scss';
@@ -35,13 +36,27 @@ export default class ConversionRateForm extends React.PureComponent {
     this.setState({ isLoading: true });
 
     let { baseCurrency, date, targetCurrency } = this.state;
-    let newConversionRate = await getConversionRate({
-      baseCurrency,
-      date,
-      targetCurrency,
-    });
-    this.setState({ isLoading: false });
-    this.setState({ conversionRate: newConversionRate });
+    let newConversionRate;
+    try {
+      newConversionRate = await getConversionRate({
+        baseCurrency,
+        date,
+        targetCurrency,
+      });
+    }
+    catch (ex) {
+      console.error(ex);
+
+      this.props.appendError(ex);
+
+      this.setState({ isLoading: false });
+
+      return;
+    }
+    finally {
+      this.setState({ isLoading: false });
+      this.setState({ conversionRate: newConversionRate });
+    }
   }
 
   handleTargetCurrency = ({ target }) => {
@@ -104,3 +119,7 @@ export default class ConversionRateForm extends React.PureComponent {
     );
   }
 }
+
+ConversionRateForm.propTypes = {
+  appendError: PropTypes.func.isRequired,
+};

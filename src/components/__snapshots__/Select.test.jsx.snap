@@ -14,7 +14,9 @@ exports[`Select matches the saved snapshot 1`] = `
         onChange={[Function]}
         value="default value"
       >
-        <option>
+        <option
+          value="-1"
+        >
           default label
         </option>
         <option

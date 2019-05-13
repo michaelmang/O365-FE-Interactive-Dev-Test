@@ -15,6 +15,7 @@ jest.mock('../getConversionRate.js');
 
 describe('ConversionRateForm', () => {
   beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     jest.resetAllMocks();
   });
 
@@ -176,24 +177,34 @@ describe('ConversionRateForm', () => {
       });
 
       it('renders form and conversion rate output', async () => {
-        let {
-          baseCurrencySelect,
-          dateSelect,
-          form,
-          root,
-          targetCurrencySelect,
-        } = extractComponents(renderComponent());
+        let actual = await submitForm();
 
-        baseCurrencySelect.props().onSelect(createEvent('some base currency'));
-        dateSelect.props().onDate(createEvent('some date'));
-        targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+        expect(renderSnapshot(actual)).toMatchSnapshot();
+      });
+    });
 
-        await form.props().onSubmit({
-          preventDefault: () => {},
-        });
-        root.update();
+    describe('when getConversionRate throws an exception', () => {
+      let someError;
 
-        expect(renderSnapshot(root)).toMatchSnapshot();
+      beforeEach(() => {
+        someError = new Error('kaboom');
+        getConversionRate.mockRejectedValue(someError);
+      });
+
+      it('calls appendError prop with raised exception', async () => {
+        let appendError = jest.fn();
+
+        await submitForm({ appendError });
+
+        expect(appendError).toHaveBeenCalledWith(someError);
+      });
+
+      it('renders form and no conversion rate output', async () => {
+        let appendError = jest.fn();
+
+        let actual = await submitForm({ appendError });
+
+        expect(renderSnapshot(actual)).toMatchSnapshot();
       });
     });
   });
@@ -211,8 +222,30 @@ describe('ConversionRateForm', () => {
   const renderComponent = (props) => (
     shallow(
       <ConversionRateForm
+        appendError={() => {}}
         {...props}
       />
     )
   );
+
+  const submitForm = async (props) => {
+    let {
+      baseCurrencySelect,
+      dateSelect,
+      form,
+      root,
+      targetCurrencySelect,
+    } = extractComponents(renderComponent(props));
+
+    baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+    dateSelect.props().onDate(createEvent('some date'));
+    targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+
+    await form.props().onSubmit({
+      preventDefault: () => {},
+    });
+    root.update();
+
+    return root;
+  };
 });

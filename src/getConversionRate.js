@@ -1,23 +1,26 @@
 import axios from 'axios';
 
 const getConversionRate = async ({ baseCurrency, date, targetCurrency }={}) => {
-  if (!baseCurrency) {
-    throw new Error('Must provide baseCurrency.');
+  let resp;
+  try {
+    resp = await axios.get(getConversionRateUrl({ baseCurrency, date }));
+  }
+  catch (ex) {
+    throw new Error(`Conversion Rate API failed with the following message: ${ex.message}`);
   }
 
-  if (!date) {
-    throw new Error('Must provide date.');
+  if (!isExpectedStatus(resp)) {
+    throw new Error(`Conversion Rate API returned an unexpected status: ${resp.status}`);
   }
 
-  if (!targetCurrency) {
-    throw new Error('Must provide targetCurrency.');
-  }
-
-  let url = `https://api.exchangeratesapi.io/${date}?base=${baseCurrency}`;
-  let resp = await axios.get(url);
   return getTargetCurrency(targetCurrency, resp);
 };
 
+const getConversionRateUrl = ({ baseCurrency, date }) =>
+  `https://api.exchangeratesapi.io/${date}?base=${baseCurrency}`;
+
 const getTargetCurrency = (targetCurrency, { data }) => data.rates[targetCurrency];
+
+const isExpectedStatus = ({ status }, expectedStatus=200) => status === expectedStatus;
 
 export default getConversionRate;

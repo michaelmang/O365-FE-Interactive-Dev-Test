@@ -9,6 +9,11 @@ exports[`App matches the saved snapshot 1`] = `
   >
     Look Up Conversion Rate
   </h1>
-  <ConversionRateForm />
+  <ConversionRateForm
+    appendError={[Function]}
+  />
+  <Notifications
+    errors={Array []}
+  />
 </div>
 `;
