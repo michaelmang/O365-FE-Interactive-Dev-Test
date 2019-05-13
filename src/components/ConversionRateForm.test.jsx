@@ -133,6 +133,153 @@ describe('ConversionRateForm', () => {
       expect(preventDefault).toHaveBeenCalled();
     });
 
+    describe('submission validation', () => {
+      describe('missing base currency', () => {
+        it('calls appendError prop with associated exception', async () => {
+          let appendError = jest.fn();
+          let { form } = extractComponents(renderComponent({
+            appendError,
+          }));
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+
+          let expected = new Error('Must provide a valid base currency.');
+          expect(appendError).toHaveBeenCalledWith(expected);
+        });
+
+        it('also calls appendError with associated exception when default option selected', () => {
+          let appendError = jest.fn();
+          let { baseCurrencySelect, form } = extractComponents(renderComponent({
+            appendError,
+          }));
+
+          baseCurrencySelect.props().onSelect(createDefaultOption());
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+
+          let expected = new Error('Must provide a valid base currency.');
+          expect(appendError).toHaveBeenCalledWith(expected);
+        });
+
+        it('renders form and no conversion rate output', async () => {
+          let { form, root } = extractComponents(renderComponent());
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+          root.update();
+
+          expect(renderSnapshot(root)).toMatchSnapshot();
+        });
+      });
+
+      describe('missing target currency', () => {
+        it('calls appendError prop with associated exception', async () => {
+          let appendError = jest.fn();
+          let {
+            baseCurrencySelect,
+            form,
+          } = extractComponents(renderComponent({
+            appendError,
+          }));
+
+          baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+
+          let expected = new Error('Must provide a valid target currency.');
+          expect(appendError).toHaveBeenCalledWith(expected);
+        });
+
+
+        it('also calls appendError with associated exception when default option selected', () => {
+          let appendError = jest.fn();
+          let {
+            baseCurrencySelect,
+            form,
+            targetCurrencySelect,
+          } = extractComponents(renderComponent({
+            appendError,
+          }));
+
+          baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+          targetCurrencySelect.props().onSelect(createDefaultOption());
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+
+          let expected = new Error('Must provide a valid target currency.');
+          expect(appendError).toHaveBeenCalledWith(expected);
+        });
+
+        it('renders form and no conversion rate output', async () => {
+          let {
+            baseCurrencySelect,
+            form,
+            root,
+          } = extractComponents(renderComponent());
+
+          baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+          root.update();
+
+          expect(renderSnapshot(root)).toMatchSnapshot();
+        });
+      });
+
+      describe('missing date', () => {
+        it('calls appendError prop with associated exception', async () => {
+          let appendError = jest.fn();
+          let {
+            baseCurrencySelect,
+            form,
+            targetCurrencySelect,
+          } = extractComponents(renderComponent({
+            appendError,
+          }));
+
+          baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+          targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+
+          let expected = new Error('Must provide a valid date.');
+          expect(appendError).toHaveBeenCalledWith(expected);
+        });
+
+        it('renders form and no conversion rate output', async () => {
+          let {
+            baseCurrencySelect,
+            form,
+            root,
+            targetCurrencySelect,
+          } = extractComponents(renderComponent());
+
+          baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+          targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+
+          form.props().onSubmit({
+            preventDefault: () => {},
+          });
+          root.update();
+
+          expect(renderSnapshot(root)).toMatchSnapshot();
+        });
+      });
+    });
+
     it('calls getConversionRate with baseCurrencySelect, date, and targetCurrency state', () => {
       let {
         baseCurrencySelect,
@@ -142,8 +289,8 @@ describe('ConversionRateForm', () => {
       } = extractComponents(renderComponent());
 
       baseCurrencySelect.props().onSelect(createEvent('some base currency'));
-      dateSelect.props().onDate(createEvent('some date'));
       targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+      dateSelect.props().onDate(createEvent('some date'));
 
       expect(getConversionRate).not.toHaveBeenCalled();
 
@@ -160,7 +307,17 @@ describe('ConversionRateForm', () => {
 
     describe('when getConversionRate is pending', () => {
       it('only renders progress bar', () => {
-        let { form, root } = extractComponents(renderComponent());
+        let {
+          baseCurrencySelect,
+          dateSelect,
+          form,
+          root,
+          targetCurrencySelect,
+        } = extractComponents(renderComponent());
+
+        baseCurrencySelect.props().onSelect(createEvent('some base currency'));
+        targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+        dateSelect.props().onDate(createEvent('some date'));
 
         form.props().onSubmit({
           preventDefault: () => {},
@@ -209,6 +366,8 @@ describe('ConversionRateForm', () => {
     });
   });
 
+  const createDefaultOption = () => createEvent('-1');
+
   const createEvent = (value) => ({ target: { value } });
 
   const extractComponents = (root) => ({
@@ -238,8 +397,8 @@ describe('ConversionRateForm', () => {
     } = extractComponents(renderComponent(props));
 
     baseCurrencySelect.props().onSelect(createEvent('some base currency'));
-    dateSelect.props().onDate(createEvent('some date'));
     targetCurrencySelect.props().onSelect(createEvent('some target currency'));
+    dateSelect.props().onDate(createEvent('some date'));
 
     await form.props().onSubmit({
       preventDefault: () => {},

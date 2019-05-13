@@ -44,6 +44,8 @@ export default class ConversionRateForm extends React.PureComponent {
 
     let conversionRate;
     try {
+      this.validateSubmission();
+
       let { baseCurrency, date, targetCurrency } = this.state;
       conversionRate = await getConversionRate({
         baseCurrency,
@@ -69,6 +71,22 @@ export default class ConversionRateForm extends React.PureComponent {
 
   resetConversionRate() {
     this.setState({ conversionRate: null });
+  }
+
+  validateSubmission() {
+    let { baseCurrency, date, targetCurrency } = this.state;
+
+    if (!baseCurrency || hasDefaultOption(baseCurrency)) {
+      throw new Error('Must provide a valid base currency.');
+    }
+
+    if (!targetCurrency || hasDefaultOption(targetCurrency)) {
+      throw new Error('Must provide a valid target currency.');
+    }
+
+    if (!date) {
+      throw new Error('Must provide a valid date.');
+    }
   }
 
   render() {
@@ -136,6 +154,8 @@ export default class ConversionRateForm extends React.PureComponent {
     );
   }
 }
+
+const hasDefaultOption = (val) => val === '-1';
 
 ConversionRateForm.propTypes = {
   appendError: PropTypes.func.isRequired,
