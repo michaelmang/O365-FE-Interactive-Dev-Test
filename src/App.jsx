@@ -11,15 +11,22 @@ export default class App extends React.PureComponent {
   }
 
   appendError = (error) => {
-    this.setState({ errors: [error] });
+    this.setState({ errors: [error] }); // currently only support one error at a time
   }
+
+  clearError = () => {
+    this.setState({ errors: [] }); // effectively clears all errors until multiple errors supported
+  };
 
   render() {
     let { errors } = this.state;
     return (
       <div className={styles.container}>
         <h1 className="title">Look Up Conversion Rate</h1>
-        <ConversionRateForm appendError={this.appendError} />
+        <ConversionRateForm
+          appendError={this.appendError}
+          clearError={this.clearError}
+        />
         <Notifications errors={errors} />
       </div>
     );

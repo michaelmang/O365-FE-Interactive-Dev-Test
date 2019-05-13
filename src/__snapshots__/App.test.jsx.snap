@@ -11,6 +11,7 @@ exports[`App matches the saved snapshot 1`] = `
   </h1>
   <ConversionRateForm
     appendError={[Function]}
+    clearError={[Function]}
   />
   <Notifications
     errors={Array []}

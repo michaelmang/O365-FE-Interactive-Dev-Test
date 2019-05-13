@@ -40,6 +40,8 @@ export default class ConversionRateForm extends React.PureComponent {
   handleSubmit = async (event) => {
     event.preventDefault();
 
+    this.props.clearError();
+
     this.setState({ isLoading: true });
 
     let conversionRate;
@@ -159,4 +161,5 @@ const hasDefaultOption = (val) => val === '-1';
 
 ConversionRateForm.propTypes = {
   appendError: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
 };

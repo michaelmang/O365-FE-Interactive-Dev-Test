@@ -47,6 +47,39 @@ describe('App', () => {
     });
   });
 
+  describe('errors cleared', () => {
+    it('passes down empty list of errors to Notifications when errors cleared', () => {
+      let {
+        conversionRateForm,
+        notifications: subject,
+        root,
+      } = extractComponents(renderComponent());
+
+      conversionRateForm.props().appendError({
+        id: 'some-error',
+        message: 'some error message',
+      });
+      root.update();
+
+      subject = extractComponents(root).notifications;
+
+      expect(subject).toHaveProp(
+        'errors',
+        [{ id: 'some-error', message: 'some error message' }],
+      );
+
+      conversionRateForm.props().clearError();
+      root.update();
+
+
+      subject = extractComponents(root).notifications;
+
+      expect(subject).toHaveProp(
+        'errors',
+        [],
+      );
+    });
+  });
   const extractComponents = (root) => ({
     conversionRateForm: root.find(ConversionRateForm),
     notifications: root.find(Notifications),

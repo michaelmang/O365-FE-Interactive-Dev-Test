@@ -133,6 +133,21 @@ describe('ConversionRateForm', () => {
       expect(preventDefault).toHaveBeenCalled();
     });
 
+    it('calls clearError prop', () => {
+      let clearError = jest.fn();
+      let { form } = extractComponents(renderComponent({
+        clearError,
+      }));
+
+      expect(clearError).not.toHaveBeenCalled();
+
+      form.props().onSubmit({
+        preventDefault: () => {},
+      });
+
+      expect(clearError).toHaveBeenCalled();
+    });
+
     describe('submission validation', () => {
       describe('missing base currency', () => {
         it('calls appendError prop with associated exception', async () => {
@@ -382,6 +397,7 @@ describe('ConversionRateForm', () => {
     shallow(
       <ConversionRateForm
         appendError={() => {}}
+        clearError={() => {}}
         {...props}
       />
     )
