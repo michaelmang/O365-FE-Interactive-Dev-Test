@@ -16,6 +16,10 @@ Please familiarize yourself with this code. During the interactive dev test, you
 
 In the project directory, you can run:
 
+### `npm install`
+
+Before running the app for the first time, remember to run `npm install` to pull in dependencies
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
