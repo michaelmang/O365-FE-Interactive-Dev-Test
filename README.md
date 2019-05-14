@@ -12,7 +12,23 @@ This repo contains a React application that allows you to convert currency excha
 
 Please familiarize yourself with this code. During the interactive dev test, you will be tasked with extending a feature to this application. While prior absorbtion of the code is expected, there will be time during the session to ask questions.
 
-## Running the Application
+## Interactive Dev Test Setup (Required)
+
+For this test we will use [Visual Studio Code](https://code.visualstudio.com/)'s [Live Share Extension](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack&ssr=false) for live collaboration. We will be able share a workspace where we can all see what you type, highlight, etc, and you can see what we type as well. **Please make sure these are installed before the dev test starts.** The Live Share extension must be installed separately, it does not come with VS Code out of the box. As a side note, when working at Rackspace you can use whatever editor you like, but we're using VS Code here for the collaboration features.
+
+We will have our own copy of the code and we'll start the collaboration session. Then we will send a link for you to join the session. In order to join and collaborate, **you must be signed into VS Code** with either a GitHub or Microsoft account.
+
+![Join Session](https://raw.githubusercontent.com/michaelmang/O365-FE-Interactive-Dev-Test/assets/join-session.png)
+
+To reiterate, you should familiarize yourself with the code beforehand, but for the actual collaboration session you won't need the code open or running locally during the test. We will also share a browser window running the code over Zoom so we can all see the same thing. However, may be able to access the server we are running by clicking on `localhost` under `Shared Servers`. VS Code will tunnel requests to our running server on our port 3000 to a port on your machine in the 60000 range. This way, you will be able to see the running app yourself if you need to debug or troubleshoot it within the browser.
+
+![Shared Server](https://raw.githubusercontent.com/michaelmang/O365-FE-Interactive-Dev-Test/assets/shared-server.png)
+
+If you want to show us something on your side during the test, sharing _your_ browser instead of ours via Zoom is also an option. When screen sharing with Zoom, it may be best to share your screen - not an individual application or window.
+
+![Share Screen](https://raw.githubusercontent.com/michaelmang/O365-FE-Interactive-Dev-Test/assets/share-screen.png)
+
+## Running the Application Locally
 
 In the project directory, you can run:
 
